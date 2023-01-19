@@ -22,8 +22,6 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Change Owner of Container Working Directory
-      run: chown root:root .
     - name: Create Frontend Image Tags
       env:
         SOURCE_LOCATION: src/azure-vote-front 
