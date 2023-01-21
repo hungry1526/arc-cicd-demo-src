@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Generates K8s manifests from Helm + Kustomize templates
 # Uses env variables to substitute values 
 # Requires to be installed:  
@@ -31,7 +33,7 @@ mkdir -p $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE
 for file in `find $1 -name '*.yaml'`; do envsubst <"$file" > "$file"1 && mv "$file"1 "$file"; done
 
 # Generate manifests
-echo "Start to generate manifests"
+echo "Generating the manifests..."
 for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   mkdir -p $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE/$app/
   cp -r $1/"$app"/helm $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE/$app/
@@ -40,10 +42,10 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   helm template $1/"$app"/helm > $1/"$app"/kustomize/base/manifests.yaml
   kubectl kustomize $1/"$app"/kustomize/base >> $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml 
   cat $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml
-  echo "Copying to a different direction"
+  echo "Copying to a new dir for stage env"
   if [$TARGET_NAMESPACE -eq "stage"]
   then
-    echo "In the stage"
+    echo "Target namespace equals to stage"
     cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
   fi
 done
