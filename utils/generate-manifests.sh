@@ -31,6 +31,7 @@ mkdir -p $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE
 for file in `find $1 -name '*.yaml'`; do envsubst <"$file" > "$file"1 && mv "$file"1 "$file"; done
 
 # Generate manifests
+echo "Start to generate manifests"
 for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   mkdir -p $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE/$app/
   cp -r $1/"$app"/helm $2/$TARGET_CLUSTER/templates/$TARGET_NAMESPACE/$app/
