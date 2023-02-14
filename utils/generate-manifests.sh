@@ -48,8 +48,9 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   echo "String for cluster: $TARGET_CLUSTER"
   if [[ "$TARGET_NAMESPACE" == "stage" ]]
   then
-    echo "Target NS is equal to stage"
-    # cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
+    echo "Target NS is equal to s t a g e"
+    mkdir $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE
+    cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
   fi
 done
 pwd
