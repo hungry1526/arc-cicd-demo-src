@@ -43,14 +43,15 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   kubectl kustomize $1/"$app"/kustomize/base >> $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml 
   cat $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml
   
-  echo "Copying to a new dir in the same repo for stage env"
-  echo "String for NS: $TARGET_NAMESPACE"
-  echo "String for cluster: $TARGET_CLUSTER"
+  echo "Copying to a new dir in the same repo"
+  echo "Target cluster: $TARGET_CLUSTER"
   if [[ "$TARGET_NAMESPACE" == "stage" ]]
   then
     echo "Target NS is equal to s t a g e"
     mkdir -p $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE
     cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
+    echo "Print the payload"
+    cat $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
   fi
 done
 pwd
