@@ -47,11 +47,11 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   echo "Target cluster: $TARGET_CLUSTER"
   if [[ "$TARGET_NAMESPACE" == "stage" ]]
   then
-    echo "Target NS is equal to s t a g e"
+    echo "In the stg folder now..."
     mkdir -p $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE
     cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
-    echo "Print the payload"
-    cat $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
+    ls $2/$TARGET_CLUSTER/manifests
+    ls $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE
   fi
 done
 pwd
