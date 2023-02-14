@@ -42,11 +42,14 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   helm template $1/"$app"/helm > $1/"$app"/kustomize/base/manifests.yaml
   kubectl kustomize $1/"$app"/kustomize/base >> $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml 
   cat $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml
-  echo "Copying to a new dir for stage env"
-  if [$TARGET_NAMESPACE -eq "stage"]
+  
+  echo "Copying to a new dir in the same repo for stage env"
+  echo $TARGET_NAMESPACE
+  echo $TARGET_CLUSTER
+  if [ $TARGET_NAMESPACE -eq "stage" ]
   then
-    echo "Target namespace equals to stage"
-    cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
+    echo "Target namespace is equal to stage"
+    # cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
   fi
 done
 pwd
