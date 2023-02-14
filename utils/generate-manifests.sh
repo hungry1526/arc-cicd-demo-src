@@ -44,9 +44,9 @@ for app in `find $1 -type d -maxdepth 1 -mindepth 1 -printf "%f\n"`; do \
   cat $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml
   
   echo "Copying to a new dir in the same repo for stage env"
-  echo $TARGET_NAMESPACE
-  echo $TARGET_CLUSTER
-  if [ $TARGET_NAMESPACE -eq "stage" ]
+  echo "string: $TARGET_NAMESPACE"
+  echo "string: $TARGET_CLUSTER"
+  if [ "$TARGET_NAMESPACE" = "stage" ]
   then
     echo "Target namespace is equal to stage"
     # cp -r $2/$TARGET_CLUSTER/manifests/$TARGET_NAMESPACE/$app.yaml $2/$TARGET_CLUSTER/manifestsstage/$TARGET_NAMESPACE/$app.yaml
